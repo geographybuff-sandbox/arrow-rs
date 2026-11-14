@@ -21,7 +21,7 @@ jobs:
   # Check workspace wide compile and test with default features for macOS.
   # Fork macOS runners frequently time out, so keep this testing upstream.
   macos:
-    if: ${{ !inputs.lint-only && github.repository == 'apache/arrow-rs' }}
+    if: ${{ !inputs.lint-only && github.repository == 'geographybuff-sandbox/arrow-rs' }}
     name: Test on Mac
     runs-on: macos-latest
     steps:
@@ -46,7 +46,7 @@ jobs:
   # Check workspace wide compile and test with default features for Windows.
   # Keep this testing upstream to reduce compute in forks.
   windows:
-    if: ${{ !inputs.lint-only && github.repository == 'apache/arrow-rs' }}
+    if: ${{ !inputs.lint-only && github.repository == 'geographybuff-sandbox/arrow-rs' }}
     name: Test on Windows
     runs-on: windows-latest
     steps:

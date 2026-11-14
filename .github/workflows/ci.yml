@@ -23,7 +23,7 @@ on:
 
 concurrency:
   # Fork pushes and manual runs share a branch group so newer runs replace both.
-  group: ${{ github.repository }}-${{ github.repository != 'apache/arrow-rs' && github.event_name == 'workflow_dispatch' && 'push' || github.event_name }}-${{ github.event.pull_request.number || (github.repository != 'apache/arrow-rs' && github.ref) || github.sha }}-${{ github.workflow }}
+  group: ${{ github.repository }}-${{ github.repository != 'geographybuff-sandbox/arrow-rs' && github.event_name == 'workflow_dispatch' && 'push' || github.event_name }}-${{ github.event.pull_request.number || (github.repository != 'geographybuff-sandbox/arrow-rs' && github.ref) || github.sha }}-${{ github.workflow }}
   cancel-in-progress: true
 
 permissions:
@@ -32,7 +32,7 @@ permissions:
 jobs:
   changes:
     name: Select and validate CI suites
-    if: github.event_name != 'push' || github.repository != 'apache/arrow-rs' || github.ref == 'refs/heads/main'
+    if: github.event_name != 'push' || github.repository != 'geographybuff-sandbox/arrow-rs' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-slim
     outputs:
       suites: ${{ steps.select.outputs.suites }}
@@ -123,7 +123,7 @@ jobs:
     # Like datafusion-comet: one stable check name even when a reusable
     # workflow is skipped (its individual check names would be different).
     name: Required Checks
-    if: always() && (github.event_name != 'push' || github.repository != 'apache/arrow-rs' || github.ref == 'refs/heads/main')
+    if: always() && (github.event_name != 'push' || github.repository != 'geographybuff-sandbox/arrow-rs' || github.ref == 'refs/heads/main')
     permissions: {}
     needs:
       - changes

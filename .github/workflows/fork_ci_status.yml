@@ -33,7 +33,7 @@ concurrency:
 
 jobs:
   bridge:
-    if: github.repository == 'apache/arrow-rs' && (github.event_name != 'workflow_run' || github.event.workflow_run.event == 'pull_request')
+    if: github.repository == 'geographybuff-sandbox/arrow-rs' && (github.event_name != 'workflow_run' || github.event.workflow_run.event == 'pull_request')
     name: Mirror the fork run
     runs-on: ubuntu-slim
     timeout-minutes: 10
@@ -210,7 +210,7 @@ jobs:
               if (errors.length) core.setFailed(errors.join('\n'));
             }
 
-            if (repository === 'apache/arrow-rs') {
+            if (repository === 'geographybuff-sandbox/arrow-rs') {
               if (context.eventName === 'workflow_run') await notify();
               else await update();
             }

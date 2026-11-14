@@ -43,7 +43,7 @@ CACHE_REFRESH_STEPS = {
     "parquet": {"pyspark-integration-test": {"Install Python dependencies"}},
 }
 FULL_RUN = "${{ !inputs.cache-refresh-only }}"
-CI_EVENT = "github.event_name != 'push' || github.repository != 'apache/arrow-rs' || github.ref == 'refs/heads/main'"
+CI_EVENT = "github.event_name != 'push' || github.repository != 'geographybuff-sandbox/arrow-rs' || github.ref == 'refs/heads/main'"
 LINT_ONLY = "${{ needs.changes.outputs.fork-pr == 'true' }}"
 
 
@@ -58,11 +58,11 @@ def validate_fork_ci(workflows, ci):
         if name in {"lint", "unused-dependencies"}:
             assert "if" not in job, f"rust/{name}: lightweight check must run upstream"
         elif name in {"macos", "windows"}:
-            assert job.get("if") == "${{ !inputs.lint-only && github.repository == 'apache/arrow-rs' }}", f"rust/{name}: must only run upstream outside lint-only mode"
+            assert job.get("if") == "${{ !inputs.lint-only && github.repository == 'geographybuff-sandbox/arrow-rs' }}", f"rust/{name}: must only run upstream outside lint-only mode"
         else:
             assert job.get("if") == "${{ !inputs.lint-only }}", f"rust/{name}: runs during lint-only mode"
     docs = load_yaml(workflows / "docs.yml")
-    assert docs["jobs"]["deploy"]["if"] == "github.repository == 'apache/arrow-rs' && github.ref_name == 'main' && github.event_name == 'push'", "Forks must not deploy docs"
+    assert docs["jobs"]["deploy"]["if"] == "github.repository == 'geographybuff-sandbox/arrow-rs' && github.ref_name == 'main' && github.event_name == 'push'", "Forks must not deploy docs"
     bridge = load_yaml(workflows / "fork_ci_status.yml")
     assert set(bridge[True]) == {"workflow_run", "schedule", "workflow_dispatch"}, "Unexpected fork bridge triggers"
     assert bridge[True]["workflow_run"] == {"workflows": ["CI"], "types": ["completed"]}, "Bridge must follow CI"
@@ -298,12 +298,12 @@ class ConfigurationTests(unittest.TestCase):
             (".asf.yaml", "enforcement: active", "enforcement: disabled"),
             (".asf.yaml", "type: merge_queue", "type: deletion"),
             (".github/workflows/rust.yml", "    if: ${{ !inputs.lint-only }}\n", ""),
-            (".github/workflows/rust.yml", "    if: ${{ !inputs.lint-only && github.repository == 'apache/arrow-rs' }}\n", ""),
-            (".github/workflows/rust.yml", " && github.repository == 'apache/arrow-rs'", ""),
+            (".github/workflows/rust.yml", "    if: ${{ !inputs.lint-only && github.repository == 'geographybuff-sandbox/arrow-rs' }}\n", ""),
+            (".github/workflows/rust.yml", " && github.repository == 'geographybuff-sandbox/arrow-rs'", ""),
             (".github/workflows/rust.yml", "!inputs.lint-only && ", ""),
-            (".github/workflows/rust.yml", "    if: ${{ !inputs.lint-only && github.repository == 'apache/arrow-rs' }}\n    name: Test on Windows\n", "    if: ${{ !inputs.lint-only }}\n    name: Test on Windows\n"),
+            (".github/workflows/rust.yml", "    if: ${{ !inputs.lint-only && github.repository == 'geographybuff-sandbox/arrow-rs' }}\n    name: Test on Windows\n", "    if: ${{ !inputs.lint-only }}\n    name: Test on Windows\n"),
             (".github/workflows/ci.yml", "      lint-only: ${{ needs.changes.outputs.fork-pr == 'true' }}\n", ""),
-            (".github/workflows/docs.yml", "github.repository == 'apache/arrow-rs' && ", ""),
+            (".github/workflows/docs.yml", "github.repository == 'geographybuff-sandbox/arrow-rs' && ", ""),
             (".asf.yaml", '"Required Checks"', '"Missing Check"'),
             (".github/workflows/ci.yml", "      - arrow\n", ""),
             (".github/workflows/ci.yml", "  pull_request:\n", "  pull_request:\n    paths: ['arrow/**']\n"),

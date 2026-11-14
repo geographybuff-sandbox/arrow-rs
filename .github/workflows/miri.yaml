@@ -46,7 +46,7 @@ jobs:
   report-failure:
     name: Report daily Miri failure
     needs: miri-checks
-    if: failure() && github.event_name == 'schedule' && github.repository == 'apache/arrow-rs'
+    if: failure() && github.event_name == 'schedule' && github.repository == 'geographybuff-sandbox/arrow-rs'
     runs-on: ubuntu-slim
     permissions:
       issues: write

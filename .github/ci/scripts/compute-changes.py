@@ -12,7 +12,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[3]
 ALWAYS = {"dev", "rust", "docs"}
-UPSTREAM = "apache/arrow-rs"
+UPSTREAM = "geographybuff-sandbox/arrow-rs"
 
 
 def is_fork_pr(event, repository, head_repository, base_ref):

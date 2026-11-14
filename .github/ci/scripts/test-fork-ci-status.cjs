@@ -42,7 +42,7 @@ const run = (id = 1, extra = {}) => ({
 async function execute({
   event = 'schedule', checks = [], runs = [run()], workflowState = 'active',
   recent = [pr], slice = [pr], candidates = [pr], repo = 'arrow-rs',
-  owner = 'apache', runError, count = 1, notification = {}, checkErrors = {},
+  owner = 'geographybuff-sandbox', runError, count = 1, notification = {}, checkErrors = {},
 } = {}) {
   const writes = [], calls = [], failures = [];
   let sweepPage;
@@ -289,16 +289,16 @@ test('fork push and manual runs replace each other on the same branch', () => {
 });
 test('upstream main and merge queue runs remain separate per commit', () => {
   for (const event_name of ['push', 'merge_group']) {
-    const upstream = { ...forkPush, repository: 'apache/arrow-rs', event_name };
+    const upstream = { ...forkPush, repository: 'geographybuff-sandbox/arrow-rs', event_name };
     assert.notEqual(group(upstream), group({ ...upstream, sha: 'second' }));
   }
-  const upstream = { ...forkPush, repository: 'apache/arrow-rs' };
+  const upstream = { ...forkPush, repository: 'geographybuff-sandbox/arrow-rs' };
   for (const event_name of ['workflow_dispatch', 'merge_group']) {
     assert.notEqual(group(upstream), group({ ...upstream, event_name }));
   }
 });
 test('same-named branches from different fork PRs cannot cancel each other', () => {
   const event = { pull_request: { number: 1 } };
-  const context = { ...forkPush, repository: 'apache/arrow-rs', event_name: 'pull_request', event };
+  const context = { ...forkPush, repository: 'geographybuff-sandbox/arrow-rs', event_name: 'pull_request', event };
   assert.notEqual(group(context), group({ ...context, event: { pull_request: { number: 2 } } }));
 });
